@@ -25,10 +25,17 @@ export class CurrenciesService {
     from = from.toUpperCase();
     to = to.toUpperCase();
 
-    if (!amount) {
+    if (amount === undefined || amount === null) {
       amount = 1;
     }
+    else if (isNaN(amount) || amount <= 0) {
+      throw new BadRequestException('Amount must be a positive number');
+    }
 
+    if (from === to) {
+      throw new BadRequestException('The origin and destination currency are the same');
+    }
+    
     try {
       const result = await this.convertCurrency(from, to, amount);
 
