@@ -1,6 +1,13 @@
+# Common
+.env
+.env.prod
+keys
+*.local
+
 # compiled output
-/dist
-/node_modules
+dist
+dist-ssr
+node_modules
 
 # Logs
 logs
