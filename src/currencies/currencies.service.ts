@@ -11,8 +11,14 @@ export class CurrenciesService {
     private currenciesRepository: Repository<Currency>,
   ) {}
 
-  findAll(): Promise<Currency[]> {
-    return this.currenciesRepository.find();
+  findAll(name: string): Promise<Currency[]> {
+    const query = this.currenciesRepository.createQueryBuilder('currency');
+
+    if (name) {
+      query.andWhere('currency.name = :name', { name: name.toUpperCase() });
+    }
+    
+    return query.getMany();
   }
 
   async getRateExchange(from: string, to: string, amount?: number): Promise<number> {

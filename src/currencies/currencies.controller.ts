@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { CurrenciesService } from './currencies.service';
 
 @Controller('currency')
@@ -6,8 +6,8 @@ export class CurrenciesController {
   constructor(private readonly currenciesService: CurrenciesService) {}
 
   @Get()
-  findAll() {
-    return this.currenciesService.findAll();
+  findAll(@Query('name') nameFilter: string) {
+    return this.currenciesService.findAll(nameFilter);
   }
 
   @Get(':from/:to')
