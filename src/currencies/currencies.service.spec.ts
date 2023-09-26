@@ -79,5 +79,23 @@ describe('CurrenciesService', () => {
         expect(error.message).toBe('Unknown currency');
       }
     });
+
+    it('should throw BadRequestException if amount is not a number', async () => {
+      const from = 'USD';
+      const to = 'EUR';
+      const invalidAmount = 'invalid';
+    
+      await expect(currenciesService.getRateExchange(from, to, parseInt(invalidAmount))).rejects.toThrowError(
+        BadRequestException,
+      );
+    });
+
+    it('should throw BadRequestException if origin and destination currency are the same', async () => {
+      const sameCurrency = 'USD';
+  
+      await expect(currenciesService.getRateExchange(sameCurrency, sameCurrency)).rejects.toThrowError(
+        BadRequestException,
+      );
+    });
   });
 });
